@@ -1,0 +1,14 @@
+{
+  "id": "eversince",
+  "name": "Eversince",
+  "description": "Eversince creative agent — hand off any creative work across video, image, audio, and motion graphics",
+  "version": "1.0.0",
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {}
+  },
+  "skills": [
+    "skills/eversince"
+  ]
+}

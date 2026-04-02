@@ -1,0 +1,17 @@
+{
+  "name": "eversince",
+  "description": "Eversince creative agent — hand off any creative work across video, image, audio, and motion graphics",
+  "version": "1.0.0",
+  "author": {
+    "name": "Eversince"
+  },
+  "homepage": "https://eversince.ai",
+  "repository": "https://github.com/eversince-ai/plugin",
+  "keywords": [
+    "creative-agent",
+    "video-generation",
+    "image-generation",
+    "audio-generation",
+    "ai-agent"
+  ]
+}

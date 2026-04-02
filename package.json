@@ -1,0 +1,23 @@
+{
+  "name": "@eversince/plugin",
+  "version": "1.0.0",
+  "description": "Eversince creative agent — hand off any creative work across video, image, audio, and motion graphics",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eversince-ai/plugin"
+  },
+  "homepage": "https://eversince.ai",
+  "openclaw": {
+    "extensions": "./index.mjs"
+  },
+  "files": [
+    ".claude-plugin/",
+    ".codex-plugin/",
+    "openclaw.plugin.json",
+    "index.mjs",
+    "skills/",
+    "README.md"
+  ]
+}

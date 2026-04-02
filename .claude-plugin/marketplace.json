@@ -1,0 +1,15 @@
+{
+  "name": "eversince-ai-plugin",
+  "owner": {
+    "name": "Eversince"
+  },
+  "description": "Official Eversince creative agent plugin",
+  "plugins": [
+    {
+      "name": "eversince",
+      "version": "1.0.0",
+      "source": "./",
+      "description": "Eversince creative agent — hand off any creative work across video, image, audio, and motion graphics"
+    }
+  ]
+}
