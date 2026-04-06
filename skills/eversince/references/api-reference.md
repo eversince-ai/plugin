@@ -209,6 +209,7 @@ Full timeline state. Pass `?variation_id=ID` for non-active variations.
     "scenes": [{
       "id": "string",
       "ref": "string",
+      "type": "video | image | solid_frame_black | solid_frame_white | empty",
       "position": 0,
       "duration": 0,
       "description": "string",

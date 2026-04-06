@@ -1,9 +1,9 @@
 ---
 name: eversince
 description: >
-  Eversince is a creative agent that works across video, image, audio, and motion graphics. It plans,
+  Eversince is a creative agent that works across image, video, audio, and motion graphics. It plans,
   generates, and iterates. It orchestrates the latest AI models with craft specializations, does agentic
-  video editing, and delivers ready assets or 1080p and 4K exported videos. It can generate from scratch
+  video editing, and delivers standalone assets or 1080p and 4K exported videos. It can generate from scratch
   or build on your own assets, and works for one-off tasks or as a creative employee in any agent-to-agent
   workflow.
 allowed-tools: Bash Read Write WebFetch
@@ -87,7 +87,7 @@ To get all variations: `GET /projects/:id/variations`
 To read the agent's working memory: `GET /projects/:id/memory`
 If the project has an `assembled_url`, a permanent shareable link can be created via `POST /projects/:id/share`
 
-## What the Eversince Agent Can Do
+## What the Agent Can Do
 
 ### Production
 - **Image generation** — text-to-image, image-to-image, reference-based (multiple references for character consistency, style matching), multiple variants per call

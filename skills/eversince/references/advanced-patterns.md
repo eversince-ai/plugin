@@ -10,7 +10,7 @@
 
 ## Long-Term Projects
 
-Eversince handles individual creative tasks. For projects that span weeks or months — campaigns, series, catalogs — you manage the long-term plan and hand Eversince focused short-term tasks.
+The agent handles individual creative tasks. For projects that span weeks or months — campaigns, series, catalogs — you manage the long-term plan and hand the agent focused short-term tasks.
 
 **Setup:** Work with the agent to build the creative foundation — direction, strategy, character casting, visual references, style rules. This is iterative and collaborative. Save the output as your master plan (`agent_message`, `GET /projects/:id/memory`, `GET /projects/:id/assets`).
 
