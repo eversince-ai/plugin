@@ -15,7 +15,6 @@
   },
   "files": [
     ".claude-plugin/",
-    ".codex-plugin/",
     "openclaw.plugin.json",
     "index.mjs",
     "skills/",

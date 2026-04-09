@@ -11,12 +11,6 @@ Eversince is a creative agent that works across image, video, audio, and motion 
 /plugin install eversince@eversince-ai-plugin
 ```
 
-### Codex
-
-```
-Install plugin from the repo https://github.com/eversince-ai/plugin
-```
-
 ### OpenClaw
 
 ```
