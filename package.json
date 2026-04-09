@@ -2,6 +2,7 @@
   "name": "@eversince/plugin",
   "version": "1.0.0",
   "description": "Eversince creative agent — hand off any creative work across video, image, audio, and motion graphics",
+  "private": true,
   "type": "module",
   "license": "MIT",
   "repository": {

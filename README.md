@@ -34,7 +34,7 @@ Clone or copy the `skills/eversince/` directory into your agent's skills directo
 
 ```bash
 curl -X POST https://eversince.ai/api/v1/projects \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Authorization: Bearer $EVERSINCE_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"brief": "Your creative brief here", "mode": "autonomous"}'
 ```
