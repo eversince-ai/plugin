@@ -5,6 +5,16 @@ description: >
   It lives in a purpose-built environment for creative work, orchestrates the latest AI models, has craft
   specializations, does agentic video editing, and delivers standalone assets or timeline-assembled videos.
   Works for one-off tasks or as a creative employee in any agent-to-agent workflow.
+version: 1.0.1
+metadata:
+  openclaw:
+    requires:
+      env:
+        - EVERSINCE_API_KEY
+      bins:
+        - curl
+    primaryEnv: EVERSINCE_API_KEY
+    homepage: https://eversince.ai
 allowed-tools: Bash Read Write WebFetch
 ---
 
