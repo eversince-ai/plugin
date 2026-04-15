@@ -14,6 +14,12 @@ You are briefing a creative agent. It reasons through your brief, makes creative
 
 **Full documentation:** https://docs.eversince.ai
 
+## Requirements
+
+- **API key required.** This skill authenticates with an Eversince account via `EVERSINCE_API_KEY`. Get one at https://eversince.ai/app/settings.
+- **Paid usage.** Generations consume credits from the user's Eversince account. Use `POST /estimate-cost` to preview costs and `GET /account/credits` to check balance before running.
+- **External calls.** All requests go to `https://eversince.ai/api/v1`. Optional `webhook_url` sends status updates to a user-specified URL.
+
 ## Setup
 
 **Base URL:** `https://eversince.ai/api/v1`
