@@ -18,11 +18,11 @@ Create a new project.
 **Request:**
 ```json
 {
-  "brief": "string (required, max 10,000 chars)",
+  "brief": "string (required, max 8,000 chars)",
   "title": "string (max 30 chars)",
   "mode": "autonomous | collaborative",
   "aspect_ratio": "16:9 | 9:16 | 1:1 | 21:9",
-  "craft": "auto | general | cinema | animation | music-video | ugc | product-shots | motion-graphics | humor | audio-engineering",
+  "craft": "auto | general | cinema | animation | ugc | music | photography | motion-graphics",
   "craft_auto": "boolean",
   "video_model": "string (model ID)",
   "image_model": "string (model ID)",
@@ -181,7 +181,7 @@ Send feedback or instructions to the agent. Valid for: `idle`. Returns 400 for a
 **Request:**
 ```json
 {
-  "message": "string (required, max 10,000 chars)",
+  "message": "string (required, max 8,000 chars)",
   "references": [{"upload_id": "string"} | {"url": "string", "type": "image | video | audio | url"}],
   "extract_content": true
 }

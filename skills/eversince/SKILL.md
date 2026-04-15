@@ -1,11 +1,10 @@
 ---
 name: eversince
 description: >
-  Eversince is a creative agent that works across image, video, audio, and motion graphics. It plans,
-  generates, and iterates. It orchestrates the latest AI models with craft specializations, does agentic
-  video editing, and delivers standalone assets or 1080p and 4K exported videos. It can generate from scratch
-  or build on your own assets, and works for one-off tasks or as a creative employee in any agent-to-agent
-  workflow.
+  Eversince is a creative agent that plans and executes across image, video, audio, and motion graphics.
+  It lives in a purpose-built environment for creative work, orchestrates the latest AI models, has craft
+  specializations, does agentic video editing, and delivers standalone assets or timeline-assembled videos.
+  Works for one-off tasks or as a creative employee in any agent-to-agent workflow.
 allowed-tools: Bash Read Write WebFetch
 ---
 
@@ -126,11 +125,11 @@ The brief is your primary input. The agent makes all creative decisions from it 
 
 | Field | Purpose | Default |
 |-------|---------|---------|
-| `brief` | What you want produced (required, max 10,000 chars) | — |
+| `brief` | What you want produced (required, max 8,000 chars) | — |
 | `title` | Project title (max 30 characters) | None |
 | `mode` | `autonomous` (agent runs end-to-end) or `collaborative` (agent stops for feedback) | `autonomous` |
 | `aspect_ratio` | `16:9`, `9:16`, `1:1`, `21:9` | `16:9` |
-| `craft` | `auto`, `general`, `cinema`, `animation`, `music-video`, `ugc`, `product-shots`, `motion-graphics`, `humor`, `audio-engineering` | `auto` |
+| `craft` | `auto`, `general`, `cinema`, `animation`, `ugc`, `music`, `photography`, `motion-graphics` | `auto` |
 | `video_model` | Specific video model ID (see `GET /models`). Models expose capability flags (`supports_multi_shot`, `supports_camera_motion`, `has_sound`, etc.) for informed selection | Agent decides |
 | `image_model` | Specific image model ID (see `GET /models`). Models expose capability flags (`supports_reference_images`, `max_reference_images`, etc.) for informed selection | Agent decides |
 | `agent_model` | `opus` or `sonnet` | `opus` |
@@ -148,13 +147,11 @@ The brief is your primary input. The agent makes all creative decisions from it 
 - `auto` — agent selects the best craft for the brief (default)
 - `general` — flexible creative output across any format, style, or use case
 - `cinema` — shot design, camera movement, emotional pacing
-- `animation` — character-driven storytelling, expressive motion
-- `music-video` — concept-driven, beat-synced, genre-aware
 - `ugc` — platform-native for TikTok, Reels, Shorts
-- `product-shots` — hero shots, detail work, lifestyle compositions
+- `photography` — hero shots, detail work, lifestyle compositions
+- `animation` — character-driven storytelling, expressive motion
+- `music` — song generation, music videos, beat-synced visuals
 - `motion-graphics` — animated text, data visualization, graphic storytelling
-- `humor` — comedic timing, concept-driven, cinematic production
-- `audio-engineering` — scoring, layering, audio-visual sync
 
 ## Two Modes
 
@@ -206,8 +203,8 @@ curl -X POST https://eversince.ai/api/v1/estimate-cost \
   -H "Authorization: Bearer $EVERSINCE_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"operations": [
-    {"tool": "generate_image", "model": "gpt-image-1.5", "count": 2},
-    {"tool": "generate_video", "model": "kling-3.0", "duration": 5, "count": 1}
+    {"tool": "generate_image", "model": "nano-banana-pro", "count": 2},
+    {"tool": "generate_video", "model": "seedance-2.0", "duration": 5, "count": 1}
   ]}'
 ```
 
