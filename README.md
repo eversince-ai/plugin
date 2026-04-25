@@ -21,6 +21,10 @@ openclaw plugins install eversince --marketplace eversince-ai/plugin
 
 Clone or copy the `skills/eversince/` directory into your agent's skills directory.
 
+## MCP server
+
+Also available as a hosted MCP server at `https://mcp.eversince.ai/mcp`. Connect from any MCP-compatible client — see [eversince-ai/mcp](https://github.com/eversince-ai/mcp) for connection details.
+
 ## Quick start
 
 1. Get an API key at [eversince.ai/app/settings](https://eversince.ai/app/settings)
