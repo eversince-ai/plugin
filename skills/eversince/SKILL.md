@@ -150,7 +150,7 @@ The brief is your primary input. The agent makes all creative decisions from it 
 | `craft` | `auto`, `general`, `cinema`, `animation`, `ugc`, `music`, `photography`, `motion-graphics` | `auto` |
 | `video_model` | Specific video model ID (see `GET /models`). Models expose capability flags (`supports_multi_shot`, `supports_camera_motion`, `has_sound`, etc.) for informed selection | Agent decides |
 | `image_model` | Specific image model ID (see `GET /models`). Models expose capability flags (`supports_reference_images`, `max_reference_images`, etc.) for informed selection | Agent decides |
-| `agent_model` | `opus-4.7`, `opus-4.6`, or `sonnet-4.6` | `opus-4.7` |
+| `agent_model` | `opus-4.7`, `opus-4.6`, or `sonnet-4.6` | `opus-4.6` |
 | `expected_output` | `assembled` (rendered video from timeline), `assets` (standalone assets, no render) | Auto-detected |
 | `webhook_url` | URL for status change notifications | None |
 | `idempotency_key` | Unique string to prevent duplicate projects on retries | None |

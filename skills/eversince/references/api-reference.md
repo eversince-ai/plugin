@@ -176,7 +176,7 @@ Get conversation history.
 Note: the agent may emit messages with empty `content` during processing (e.g. when dispatching generations). These are internal status markers — filter or skip them when displaying conversation history.
 
 ### POST /projects/:id/messages
-Send feedback or instructions to the agent. Valid for: `idle`. Returns 400 for any other status — wait for the agent to finish if active, or check terminal status. Requires minimum 10 credits.
+Send feedback or instructions to the agent. Valid for: `idle`. Returns 400 for any other status — wait for the agent to finish if active, or check terminal status. Requires minimum 50 credits.
 
 **Request:**
 ```json
