@@ -1,6 +1,6 @@
 # Eversince
 
-Eversince is a creative agent that plans and executes across image, video, audio, and motion graphics. It lives in a purpose-built environment for creative work, orchestrates the latest AI models, has craft specializations, does agentic video editing, and delivers standalone assets or timeline-assembled videos. Works for one-off tasks or as a creative employee in any agent-to-agent workflow.
+Eversince is a creative agent that plans and executes across image, video, and audio. It orchestrates the latest AI models and operates in a purpose-built environment with tools, skills, and memory. Works for one-off tasks or as a creative employee in any agent-to-agent workflow.
 
 ## Install
 

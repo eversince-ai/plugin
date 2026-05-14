@@ -10,28 +10,28 @@
 
 ## Long-Term Projects
 
-The agent handles individual creative tasks. For projects that span weeks or months — campaigns, series, catalogs — you manage the long-term plan and hand the agent focused short-term tasks.
+The agent handles individual creative tasks. For projects that span weeks or months (campaigns, series, catalogs), you manage the long-term plan and hand the agent focused short-term tasks.
 
-**Setup:** Work with the agent to build the creative foundation — direction, strategy, character casting, visual references, style rules. This is iterative and collaborative. Save the output as your master plan (`agent_message`, `GET /projects/:id/memory`, `GET /projects/:id/assets`).
+**Setup:** Work with the agent to build the creative foundation: direction, strategy, character casting, visual references, style rules. This is iterative and collaborative. Save the output as your master plan (`agent_message`, `GET /projects/:id/memory`, `GET /projects/:id/assets`).
 
-**Execution:** Hand the agent focused tasks from the master plan — "produce this week's episode," "create the 9:16 social cuts," "generate the Japanese market version." The agent executes the creative work. You update your progress tracking.
+**Execution:** Hand the agent focused tasks from the master plan: "produce this week's episode," "create the 9:16 social cuts," "generate the Japanese market version." The agent executes the creative work. You update your progress tracking.
 
-**Variations** (parallel timeline branches within a project) keep everything connected — each deliverable can be its own variation, sharing the project's creative foundation while branching for each task.
+**Variations** (parallel timeline branches within a project) keep everything connected: each deliverable can be its own variation, sharing the project's creative foundation while branching for each task.
 
 **Memory:** The agent's working memory (~14,500 tokens) is designed for short-term task focus. Your master plan lives outside. Feed the agent what it needs per task. Use `GET /projects/:id/memory` to monitor.
 
 ## Parallel Projects
 
-Launch multiple projects simultaneously (default limit: 5 concurrent). Projects start as capacity opens up — all begin as `queued` and move to `running` as the system picks them up.
+Launch multiple projects simultaneously (default limit: 5 concurrent). Projects start as capacity opens up; all begin as `queued` and move to `running` as the system picks them up.
 
 ### Tracking Pattern
 
 When managing multiple projects, maintain your own tracking:
 
 ```
-Project A (id: ...) — status: generating, last_msg: msg_123
-Project B (id: ...) — status: running, last_msg: msg_456
-Project C (id: ...) — status: queued, last_msg: null
+Project A (id: ...): status generating, last_msg msg_123
+Project B (id: ...): status running, last_msg msg_456
+Project C (id: ...): status queued, last_msg null
 ```
 
 Track:
@@ -42,7 +42,7 @@ Track:
 
 ## Variation Workflows
 
-Variations are parallel creative directions within one project — different styles, languages, aspect ratios, or A/B tests.
+Variations are parallel creative directions within one project: different styles, languages, aspect ratios, or A/B tests.
 
 **Variations are read-only via API.** To create, switch, or delete:
 
@@ -86,6 +86,6 @@ curl -X POST https://eversince.ai/api/v1/account/skills \
   }'
 ```
 
-Skills persist across all projects. Use them for brand guidelines, style rules, or domain-specific knowledge. Budget: 8000 characters max across all active custom skills (crafts are excluded from the budget).
+Skills persist across all projects. Use them for brand guidelines, style rules, or domain-specific knowledge. Budget: 40,000 tokens (roughly 160,000 characters) across all active skills combined.
 
-List all skills via `GET /account/skills`. Both platform skills (built-in by Eversince) and user skills can be toggled on/off via `PATCH /account/skills/:id`. User skills can also be created, updated, and deleted.
+List all skills via `GET /account/skills`. Both Eversince skills (built-in) and custom skills can be toggled on/off via `PATCH /account/skills/:id`. Custom skills can also be created, updated, and deleted.

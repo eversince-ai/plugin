@@ -22,11 +22,10 @@ Create a new project.
   "title": "string (max 30 chars)",
   "mode": "autonomous | collaborative",
   "aspect_ratio": "16:9 | 9:16 | 1:1 | 21:9",
-  "craft": "auto | general | cinema | animation | ugc | music | photography | motion-graphics",
-  "craft_auto": "boolean",
+  "skills": ["cinema | animation | ugc | music | photography | motion-graphics | <custom-skill-uuid>"],
   "video_model": "string (model ID)",
   "image_model": "string (model ID)",
-  "agent_model": "opus-4.7 | opus-4.6 | sonnet-4.6",
+  "agent_model": "auto | opus-4.7 | opus-4.6 | sonnet-4.6",
   "expected_output": "assembled | assets",
   "webhook_url": "string (HTTPS URL)",
   "idempotency_key": "string",
@@ -118,13 +117,14 @@ Update project settings. Blocked during active agent runs (`running`, `generatin
   "mode": "autonomous | collaborative | none",
   "video_model": "string",
   "image_model": "string",
-  "agent_model": "opus-4.7 | opus-4.6 | sonnet-4.6",
-  "craft": "string",
-  "craft_auto": "boolean",
+  "agent_model": "auto | opus-4.7 | opus-4.6 | sonnet-4.6",
+  "skills": ["string (Eversince slug or custom-skill UUID)"],
   "webhook_url": "string (HTTPS URL) | null",
   "expected_output": "assembled | assets | null"
 }
 ```
+
+`skills` replaces the full active set. Pass `[]` to clear. Combined token budget across all active skills is 40,000.
 
 **Response (200):**
 ```json
@@ -134,16 +134,15 @@ Update project settings. Blocked during active agent runs (`running`, `generatin
   "aspect_ratio": "string",
   "video_model": "string",
   "image_model": "string",
-  "agent_model": "string (opus-4.7 | opus-4.6 | sonnet-4.6)",
-  "craft": "string",
-  "craft_auto": true,
+  "agent_model": "string (auto | opus-4.7 | opus-4.6 | sonnet-4.6)",
+  "skills": ["string"],
   "webhook_url": "string | null",
   "expected_output": "assembled | assets | null"
 }
 ```
 
 ### POST /projects/:id/cancel
-Stop the agent. Valid for: `queued`, `running`, `generating`, `idle`. Returns 400 if status is not cancellable. Returns 409 if status changed between check and update (race condition — re-check status).
+Stop the agent. Valid for: `queued`, `running`, `generating`, `idle`. Returns 400 if status is not cancellable. Returns 409 if status changed between check and update (race condition, re-check status).
 
 **Response (200):**
 ```json
@@ -157,7 +156,7 @@ Stop the agent. Valid for: `queued`, `running`, `generating`, `idle`. Returns 40
 ### GET /projects/:id/messages
 Get conversation history.
 
-**Query:** `limit` (1-50, default 20), `before` (cursor for older), `after` (cursor for newer — use for efficient polling)
+**Query:** `limit` (1-50, default 20), `before` (cursor for older), `after` (cursor for newer, use for efficient polling)
 
 **Response (200):**
 ```json
@@ -173,10 +172,10 @@ Get conversation history.
 }
 ```
 
-Note: the agent may emit messages with empty `content` during processing (e.g. when dispatching generations). These are internal status markers — filter or skip them when displaying conversation history.
+Note: the agent may emit messages with empty `content` during processing (e.g. when dispatching generations). These are internal status markers; filter or skip them when displaying conversation history.
 
 ### POST /projects/:id/messages
-Send feedback or instructions to the agent. Valid for: `idle`. Returns 400 for any other status — wait for the agent to finish if active, or check terminal status. Requires minimum 50 credits.
+Send feedback or instructions to the agent. Valid for: `idle`. Returns 400 for any other status. Wait for the agent to finish if active, or check terminal status. Requires minimum 10 credits.
 
 **Request:**
 ```json
@@ -205,7 +204,7 @@ Full timeline state. Pass `?variation_id=ID` for non-active variations.
   "timeline": {
     "duration_seconds": 0,
     "aspect_ratio": "string",
-    "craft": "string",
+    "skills": ["string"],
     "scenes": [{
       "id": "string",
       "ref": "string",
@@ -291,7 +290,7 @@ Generated assets with pagination.
 ```
 
 ### GET /projects/:id/variations
-List all variations. Read-only — create/switch/delete variations by sending messages to the agent.
+List all variations. Read-only; create/switch/delete variations by sending messages to the agent.
 
 **Response (200):**
 ```json
@@ -393,7 +392,7 @@ curl -X PUT "UPLOAD_URL_FROM_STEP_1" \
   --data-binary @file.jpg
 ```
 
-No authorization header — the URL is pre-authenticated. The response is empty on success (200).
+No authorization header; the URL is pre-authenticated. The response is empty on success (200).
 
 ### POST /uploads/confirm
 Confirm upload and get an upload_id for use in briefs/messages.
@@ -479,18 +478,18 @@ List public share links.
 ## Skills
 
 ### GET /account/skills
-List all skills (platform + user). Budget: 8000 chars max for active custom skills combined (crafts are excluded from the budget).
+List all skills (platform + user). Active skills share a 40,000-token budget (roughly 160,000 characters).
 
 **Response (200):**
 ```json
 {
-  "skills": [{"id": "string", "name": "string", "is_active": true, "source": "eversince | user", "category": "craft | technique | workflow | null", "description": "string | null", "characters": 0}],
-  "budget": {"used": 0, "limit": 8000}
+  "skills": [{"id": "string", "name": "string", "is_active": true, "source": "eversince | user", "description": "string | null", "tokens": 0, "sort_order": 0}],
+  "budget": {"used": 0, "limit": 40000}
 }
 ```
 
 ### POST /account/skills
-Create a user skill. Name max 100 chars, instructions max 8000 chars.
+Create a custom skill. Name max 100 chars. No per-skill instruction cap; active skills share the 40,000-token budget.
 
 **Request:**
 ```json
@@ -501,7 +500,7 @@ Create a user skill. Name max 100 chars, instructions max 8000 chars.
 ```json
 {
   "skill": {"id": "string", "name": "string", "instructions": "string", "is_active": true, "source": "user", "characters": 0, "sort_order": 0, "created_at": "ISO 8601", "updated_at": "ISO 8601"},
-  "budget": {"used": 0, "limit": 8000}
+  "budget": {"used": 0, "limit": 40000}
 }
 ```
 
@@ -511,35 +510,35 @@ Get skill detail.
 **Response (200):**
 ```json
 {
-  "skill": {"id": "string", "name": "string", "is_active": true, "source": "eversince | user", "category": "craft | technique | workflow | null", "description": "string | null", "instructions": "string | null", "characters": 0, "sort_order": 0, "created_at": "ISO 8601", "updated_at": "ISO 8601"}
+  "skill": {"id": "string", "name": "string", "is_active": true, "source": "eversince | user", "description": "string | null", "instructions": "string | null", "characters": 0, "sort_order": 0, "created_at": "ISO 8601", "updated_at": "ISO 8601"}
 }
 ```
 
 ### PATCH /account/skills/:id
-Update user skill or toggle platform skill on/off. Activating a craft automatically deactivates other crafts (only one active at a time). Skill names must be unique — duplicate names return 400.
+Update custom skill or toggle Eversince skill on/off. Skills stack freely; activating one does not deactivate the others. Active skills share the 40,000-token budget; activations that would exceed it return 400. Skill names must be unique; duplicate names return 400.
 
 **Request:**
 ```json
 {"name": "string", "instructions": "string", "is_active": true}
 ```
 
-**Response (200) — user skill:**
+**Response (200), custom skill:**
 ```json
 {
   "skill": {"id": "string", "name": "string", "instructions": "string", "is_active": true, "source": "user", "characters": 0, "sort_order": 0, "created_at": "ISO 8601", "updated_at": "ISO 8601"},
-  "budget": {"used": 0, "limit": 8000}
+  "budget": {"used": 0, "limit": 40000}
 }
 ```
 
-**Response (200) — platform skill toggle:**
+**Response (200), Eversince skill toggle:**
 ```json
 {
-  "skill": {"id": "string", "name": "string", "is_active": true, "category": "craft | technique | workflow | null", "source": "eversince"}
+  "skill": {"id": "string", "name": "string", "is_active": true, "source": "eversince"}
 }
 ```
 
 ### DELETE /account/skills/:id
-Delete a user skill. Cannot delete platform skills.
+Delete a custom skill. Cannot delete Eversince skills.
 
 **Response (200):**
 ```json
@@ -555,7 +554,7 @@ List available models. Fields differ by type.
 
 **Query:** `type` (`video` or `image`)
 
-**Response (200) — video models:**
+**Response (200), video models:**
 ```json
 {
   "models": [{
@@ -587,7 +586,7 @@ List available models. Fields differ by type.
 }
 ```
 
-**Response (200) — image models:**
+**Response (200), image models:**
 ```json
 {
   "models": [{
@@ -775,6 +774,6 @@ Validation errors join all field errors into a single `message` string, semicolo
 - 30 requests per minute per user (shared across all API keys on the same account)
 - 50 renders per day (`POST /projects/:id/render`)
 - 500 projects per day
-- 5 concurrent active projects — projects in `queued`, `running`, `generating`, or `rendering` status count toward this limit (default, configurable)
+- 5 concurrent active projects: projects in `queued`, `running`, `generating`, or `rendering` status count toward this limit (default, configurable)
 
 Need higher limits? Contact support@eversince.ai.
