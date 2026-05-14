@@ -4,7 +4,7 @@ description: >
   Eversince is a creative agent that plans and executes across image, video, and audio.
   It orchestrates the latest AI models and operates in a purpose-built environment with tools, skills, and memory.
   Works for one-off tasks or as a creative employee in any agent-to-agent workflow.
-version: 1.0.3
+version: 1.0.4
 metadata:
   openclaw:
     requires:
@@ -149,7 +149,7 @@ The brief is your primary input. The agent makes all creative decisions from it:
 | `skills` | Array of skills to activate. Each entry is an Eversince skill (`cinema`, `animation`, `ugc`, `music`, `photography`, `motion-graphics`) or a custom-skill UUID from `GET /account/skills`. Stack freely up to the 40,000-token combined budget. | `[]` |
 | `video_model` | Specific video model ID (see `GET /models`). Models expose capability flags (`supports_multi_shot`, `supports_camera_motion`, `has_sound`, etc.) for informed selection | Agent decides |
 | `image_model` | Specific image model ID (see `GET /models`). Models expose capability flags (`supports_reference_images`, `max_reference_images`, etc.) for informed selection | Agent decides |
-| `agent_model` | `auto`, `opus-4.7`, `opus-4.6`, or `sonnet-4.6` | `auto` |
+| `agent_model` | `opus-4.7`, `opus-4.6`, or `sonnet-4.6` | `sonnet-4.6` |
 | `expected_output` | `assembled` (rendered video from timeline), `assets` (standalone assets, no render) | Auto-detected |
 | `webhook_url` | URL for status change notifications | None |
 | `idempotency_key` | Unique string to prevent duplicate projects on retries | None |

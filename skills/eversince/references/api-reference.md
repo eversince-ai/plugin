@@ -25,7 +25,7 @@ Create a new project.
   "skills": ["cinema | animation | ugc | music | photography | motion-graphics | <custom-skill-uuid>"],
   "video_model": "string (model ID)",
   "image_model": "string (model ID)",
-  "agent_model": "auto | opus-4.7 | opus-4.6 | sonnet-4.6",
+  "agent_model": "opus-4.7 | opus-4.6 | sonnet-4.6",
   "expected_output": "assembled | assets",
   "webhook_url": "string (HTTPS URL)",
   "idempotency_key": "string",
@@ -117,7 +117,7 @@ Update project settings. Blocked during active agent runs (`running`, `generatin
   "mode": "autonomous | collaborative | none",
   "video_model": "string",
   "image_model": "string",
-  "agent_model": "auto | opus-4.7 | opus-4.6 | sonnet-4.6",
+  "agent_model": "opus-4.7 | opus-4.6 | sonnet-4.6",
   "skills": ["string (Eversince slug or custom-skill UUID)"],
   "webhook_url": "string (HTTPS URL) | null",
   "expected_output": "assembled | assets | null"
@@ -134,7 +134,7 @@ Update project settings. Blocked during active agent runs (`running`, `generatin
   "aspect_ratio": "string",
   "video_model": "string",
   "image_model": "string",
-  "agent_model": "string (auto | opus-4.7 | opus-4.6 | sonnet-4.6)",
+  "agent_model": "string (opus-4.7 | opus-4.6 | sonnet-4.6)",
   "skills": ["string"],
   "webhook_url": "string | null",
   "expected_output": "assembled | assets | null"
