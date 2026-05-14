@@ -149,7 +149,8 @@ The brief is your primary input. The agent makes all creative decisions from it:
 | `skills` | Array of skills to activate. Each entry is an Eversince skill (`cinema`, `animation`, `ugc`, `music`, `photography`, `motion-graphics`) or a custom-skill UUID from `GET /account/skills`. Stack freely up to the 40,000-token combined budget. | `[]` |
 | `video_model` | Specific video model ID (see `GET /models`). Models expose capability flags (`supports_multi_shot`, `supports_camera_motion`, `has_sound`, etc.) for informed selection | Agent decides |
 | `image_model` | Specific image model ID (see `GET /models`). Models expose capability flags (`supports_reference_images`, `max_reference_images`, etc.) for informed selection | Agent decides |
-| `agent_model` | `opus-4.7`, `opus-4.6`, or `sonnet-4.6` | `sonnet-4.6` |
+| `agent_model` | `opus-4.7`, `opus-4.6`, or `sonnet-4.6` | — |
+| `reasoning_mode` | `thinking` (deeper reasoning) or `fast` (quicker turns) | `thinking` |
 | `expected_output` | `assembled` (rendered video from timeline), `assets` (standalone assets, no render) | Auto-detected |
 | `webhook_url` | URL for status change notifications | None |
 | `idempotency_key` | Unique string to prevent duplicate projects on retries | None |
@@ -258,7 +259,7 @@ Report bugs, suggestions, or questions directly via `POST /feedback` with `{"typ
 Some settings are changed via the API, others must go through the agent because they affect the timeline:
 
 **Via `PATCH /projects/:id/settings`** (project-level config):
-- `mode`, `video_model`, `image_model`, `agent_model`, `skills`, `webhook_url`, `title`, `expected_output`
+- `mode`, `video_model`, `image_model`, `agent_model`, `reasoning_mode`, `skills`, `webhook_url`, `title`, `expected_output`
 
 **Via `POST /projects/:id/messages`** (timeline operations the agent performs. `PATCH /settings` will reject these with a validation error):
 - Aspect ratio: "Change aspect ratio to 9:16"
