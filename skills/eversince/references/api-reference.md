@@ -315,14 +315,17 @@ Read the agent's working memory.
 ```json
 {
   "sections": {
-    "creative": {"content": "string", "tokens": 0, "capacity": 4000},
-    "plan": {"content": "string", "tokens": 0, "capacity": 5500},
-    "assets": {"content": "string", "tokens": 0, "capacity": 5000}
+    "creative": {"content": "string", "tokens": 0},
+    "todos": {"content": "string", "tokens": 0},
+    "assets": {"content": "string", "tokens": 0}
   },
-  "total_tokens": 0,
-  "total_capacity": 14500
+  "total_tokens": 0
 }
 ```
+
+- `creative` — markdown of the locked creative direction and chosen production settings.
+- `todos` — checklist of what's done and what's next.
+- `assets` — structured ledger of characters, products, environments, and references the agent is using.
 
 ---
 
@@ -442,7 +445,7 @@ Read the agent's cross-project learned preferences.
 
 **Response (200):**
 ```json
-{"content": "string", "enabled": true, "characters": 0, "max_characters": 4000}
+{"content": "string", "enabled": true, "characters": 0}
 ```
 
 ### PUT /account/learned-preferences
@@ -455,7 +458,7 @@ Update preferences content and/or toggle.
 
 **Response (200):**
 ```json
-{"content": "string", "enabled": true, "characters": 0, "max_characters": 4000}
+{"content": "string", "enabled": true, "characters": 0}
 ```
 
 ### GET /account/shares

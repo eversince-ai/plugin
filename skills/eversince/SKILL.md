@@ -107,7 +107,7 @@ If the project has an `assembled_url`, a permanent shareable link can be created
 
 ### Production
 - **Image generation:** text-to-image, image-to-image, reference-based (multiple references for character consistency, style matching), multiple variants per call
-- **Video generation:** text-to-video, image-to-video, video-to-video, multi-shot direction (up to 6 segments), audio-synced generation (lip-sync, rhythm), camera motion presets
+- **Video generation:** text-to-video, image-to-video, video-to-video, multi-shot direction across multiple segments, audio-synced generation (lip-sync, rhythm), camera motion presets
 - **Video production:** multi-scene timelines, storytelling structure, pacing, scene management, generation selection, fade control
 - **Voiceover:** script writing and speech generation in 60+ languages, voice selection, speed control, voice transformation
 - **Music:** instrumental or with lyrics across three models (ElevenLabs, MiniMax, Google Lyria), each with different strengths
@@ -271,7 +271,7 @@ Some settings are changed via the API, others must go through the agent because 
 
 - **Minimum credits:** 30 to create a project, 10 to send a message, 10 to render.
 - **Concurrent projects:** up to 5 projects in `queued`, `running`, `generating`, or `rendering` at the same time. Daily limit: 500 projects.
-- **Agent runs in cycles:** the agent works, dispatches generations, waits for results, then continues automatically (up to 25 cycles per run). Monitor progress via status polling or webhooks. Cancel at any time via `POST /projects/:id/cancel`.
+- **Agent runs in cycles:** the agent works, dispatches generations, waits for results, then continues automatically until the run completes or fails. Monitor progress via status polling or webhooks. Cancel at any time via `POST /projects/:id/cancel`.
 - **`assembled_url` expires after 24 hours.** Re-render via `POST /projects/:id/render` (rate-limited per day: 10 non-sub, 50 sub). Create a permanent link via `POST /projects/:id/share`.
 - **1080p rendering** is free (rate-limited per day). **4K rendering** charges credits. 1080p is the default.
 - **Cancel stops the agent, not in-progress generations.** Already-dispatched generations will complete, but the agent won't continue after them.

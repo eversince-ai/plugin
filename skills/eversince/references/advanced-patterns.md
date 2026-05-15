@@ -18,7 +18,7 @@ The agent handles individual creative tasks. For projects that span weeks or mon
 
 **Variations** (parallel timeline branches within a project) keep everything connected: each deliverable can be its own variation, sharing the project's creative foundation while branching for each task.
 
-**Memory:** The agent's working memory (~14,500 tokens) is designed for short-term task focus. Your master plan lives outside. Feed the agent what it needs per task. Use `GET /projects/:id/memory` to monitor.
+**Memory:** The agent's working memory is designed for short-term task focus. Your master plan lives outside. Feed the agent what it needs per task. Use `GET /projects/:id/memory` to monitor.
 
 ## Parallel Projects
 
