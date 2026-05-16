@@ -4,7 +4,7 @@ description: >
   Eversince is a creative agent that plans and executes across image, video, and audio.
   It orchestrates the latest AI models and operates in a purpose-built environment with tools, skills, and memory.
   Works for one-off tasks or as a creative employee in any agent-to-agent workflow.
-version: 1.0.4
+version: 1.0.5
 metadata:
   openclaw:
     requires:
