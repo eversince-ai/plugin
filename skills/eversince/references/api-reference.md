@@ -26,7 +26,6 @@ Create a new project.
   "video_model": "string (model ID)",
   "image_model": "string (model ID)",
   "agent_model": "opus-4.7 | opus-4.6 | sonnet-4.6",
-  "expected_output": "assembled | assets",
   "webhook_url": "string (HTTPS URL)",
   "idempotency_key": "string",
   "references": [{"upload_id": "string"} | {"url": "string", "type": "image | video | audio | url"}],
@@ -61,7 +60,6 @@ List projects.
     "mode": "string",
     "title": "string | null",
     "brief": "string (first 200 chars)",
-    "expected_output": "assembled | assets | null",
     "assembled_url": "string | null",
     "project_url": "string | null",
     "created_at": "ISO 8601",
@@ -119,8 +117,7 @@ Update project settings. Blocked during active agent runs (`running`, `generatin
   "image_model": "string",
   "agent_model": "opus-4.7 | opus-4.6 | sonnet-4.6",
   "skills": ["string (Eversince slug or custom-skill UUID)"],
-  "webhook_url": "string (HTTPS URL) | null",
-  "expected_output": "assembled | assets | null"
+  "webhook_url": "string (HTTPS URL) | null"
 }
 ```
 
@@ -136,8 +133,7 @@ Update project settings. Blocked during active agent runs (`running`, `generatin
   "image_model": "string",
   "agent_model": "string (opus-4.7 | opus-4.6 | sonnet-4.6)",
   "skills": ["string"],
-  "webhook_url": "string | null",
-  "expected_output": "assembled | assets | null"
+  "webhook_url": "string | null"
 }
 ```
 
@@ -175,7 +171,7 @@ Get conversation history.
 Note: the agent may emit messages with empty `content` during processing (e.g. when dispatching generations). These are internal status markers; filter or skip them when displaying conversation history.
 
 ### POST /projects/:id/messages
-Send feedback or instructions to the agent. Valid for: `idle`. Returns 400 for any other status. Wait for the agent to finish if active, or check terminal status. Requires minimum 10 credits.
+Send feedback or instructions to the agent. Valid for: `idle`, `completed`, `cancelled`, `failed`. Returns 400 if the agent is still actively working (`running`, `generating`, `rendering`) — wait for it to settle first. Requires minimum 10 credits.
 
 **Request:**
 ```json
@@ -265,7 +261,7 @@ Full timeline state. Pass `?variation_id=ID` for non-active variations.
 ### GET /projects/:id/assets
 Generated assets with pagination.
 
-**Query:** `limit` (1-50, default 20), `offset`
+**Query:** `limit` (1-200, default 20), `offset`
 
 **Response (200):**
 ```json
@@ -474,6 +470,82 @@ List public share links.
   "total_views": 0,
   "has_more": true
 }
+```
+
+---
+
+## Memories
+
+User-authored cross-project facts the agent reads at runtime (preferred voice, brand details, audience, etc.). Lighter-weight than skills — use memories for one-line facts, skills for full instructions. Active memories share a 10,000-character budget.
+
+### GET /account/memories
+List all memories with budget usage.
+
+**Response (200):**
+```json
+{
+  "memories": [{
+    "id": "string",
+    "title": "string",
+    "body": "string",
+    "is_active": true,
+    "sort_order": 0,
+    "characters": 0,
+    "created_at": "ISO 8601",
+    "updated_at": "ISO 8601"
+  }],
+  "budget": {"used": 0, "limit": 10000}
+}
+```
+
+### POST /account/memories
+Create a memory. Title max 100 chars. Body up to 10,000 chars. If `is_active` is true (default), the new body must fit within the remaining active-memory budget.
+
+**Request:**
+```json
+{"title": "string", "body": "string", "is_active": true}
+```
+
+**Response (201):**
+```json
+{
+  "memory": {"id": "string", "title": "string", "body": "string", "is_active": true, "sort_order": 0, "characters": 0, "created_at": "ISO 8601", "updated_at": "ISO 8601"},
+  "budget": {"used": 0, "limit": 10000}
+}
+```
+
+### GET /account/memories/:id
+Get a single memory.
+
+**Response (200):**
+```json
+{
+  "memory": {"id": "string", "title": "string", "body": "string", "is_active": true, "sort_order": 0, "characters": 0, "created_at": "ISO 8601", "updated_at": "ISO 8601"}
+}
+```
+
+### PATCH /account/memories/:id
+Update a memory. Provide at least one of `title`, `body`, `is_active`. Activating a memory that would push the active total past 10,000 chars returns 400.
+
+**Request:**
+```json
+{"title": "string", "body": "string", "is_active": true}
+```
+
+**Response (200):**
+```json
+{
+  "memory": {"id": "string", "title": "string", "body": "string", "is_active": true, "sort_order": 0, "characters": 0, "created_at": "ISO 8601", "updated_at": "ISO 8601"},
+  "budget": {"used": 0, "limit": 10000}
+}
+```
+
+### DELETE /account/memories/:id
+Delete a memory permanently.
+
+**Response (200):**
+```json
+{"deleted": true}
 ```
 
 ---
@@ -774,7 +846,7 @@ Validation errors join all field errors into a single `message` string, semicolo
 
 ## Rate Limits
 
-- 30 requests per minute per user (shared across all API keys on the same account)
+- 120 requests per minute per user (shared across all API keys on the same account)
 - 50 renders per day (`POST /projects/:id/render`)
 - 500 projects per day
 - 5 concurrent active projects: projects in `queued`, `running`, `generating`, or `rendering` status count toward this limit (default, configurable)

@@ -151,7 +151,6 @@ The brief is your primary input. The agent makes all creative decisions from it:
 | `image_model` | Specific image model ID (see `GET /models`). Models expose capability flags (`supports_reference_images`, `max_reference_images`, etc.) for informed selection | Agent decides |
 | `agent_model` | `opus-4.7`, `opus-4.6`, or `sonnet-4.6` | — |
 | `reasoning_mode` | `thinking` (deeper reasoning) or `fast` (quicker turns) | `thinking` |
-| `expected_output` | `assembled` (rendered video from timeline), `assets` (standalone assets, no render) | Auto-detected |
 | `webhook_url` | URL for status change notifications | None |
 | `idempotency_key` | Unique string to prevent duplicate projects on retries | None |
 | `references` | Array of `{upload_id}` or `{url, type}` for reference materials. Type: `image`, `video`, `audio`, `url` | None |
@@ -186,6 +185,7 @@ Switch modes mid-project: `PATCH /projects/:id/settings` with `{"mode": "collabo
 Supports ongoing collaboration as well as one-off creative work.
 
 - **Skills:** teach the agent persistent knowledge (brand guidelines, style rules, workflow preferences, etc.) via `POST /account/skills`. List via `GET /account/skills`, read via `GET /account/skills/:id`, toggle on/off via `PATCH /account/skills/:id`, delete via `DELETE /account/skills/:id`. Apply across all projects.
+- **Memories:** short user-authored facts the agent reads at runtime (preferred voice, recurring brand details, audience). List via `GET /account/memories`, create via `POST /account/memories`, read via `GET /account/memories/:id`, edit/toggle via `PATCH /account/memories/:id`, delete via `DELETE /account/memories/:id`. Title max 100 chars, body up to 10,000 chars per item; active memories share a 10,000-character total budget. Lighter-weight than skills — use memories for one-line facts, skills for full instructions.
 - **Learned preferences:** the agent learns preferences, brand voice, and creative patterns across projects. Read via `GET /account/learned-preferences`, update via `PUT /account/learned-preferences`.
 - **Project history:** list all projects via `GET /projects` with `?status=`, `?title=`, `?limit=`, `?offset=` filters.
 - **Shared content:** list all public share links and view counts via `GET /account/shares`.
@@ -246,7 +246,7 @@ Errors return `{"error": {"code": "string", "message": "string", "status": 400}}
 
 **When a project fails:** Create a new project. Failed projects cannot be resumed or retried. Start fresh with the same or adjusted brief. Check `error_message` for what went wrong.
 
-**When `POST /messages` returns 400:** The agent isn't `idle` yet. Poll `GET /projects/:id` until status reaches `idle`, `failed`, or `cancelled` before sending another message.
+**When `POST /messages` returns 400:** The agent is still actively working. Poll `GET /projects/:id` until status reaches `idle`, `completed`, `cancelled`, or `failed` before sending another message (the agent accepts feedback from any of these terminal-ish states).
 
 See [references/api-reference.md](references/api-reference.md) for the full error format, response headers, and rate limits.
 
@@ -259,7 +259,7 @@ Report bugs, suggestions, or questions directly via `POST /feedback` with `{"typ
 Some settings are changed via the API, others must go through the agent because they affect the timeline:
 
 **Via `PATCH /projects/:id/settings`** (project-level config):
-- `mode`, `video_model`, `image_model`, `agent_model`, `reasoning_mode`, `skills`, `webhook_url`, `title`, `expected_output`
+- `mode`, `video_model`, `image_model`, `agent_model`, `reasoning_mode`, `skills`, `webhook_url`, `title`
 
 **Via `POST /projects/:id/messages`** (timeline operations the agent performs. `PATCH /settings` will reject these with a validation error):
 - Aspect ratio: "Change aspect ratio to 9:16"
